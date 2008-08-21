@@ -14,7 +14,7 @@ class Player
     @round_names << round_name
     @opponents << []
   end
-  
+
   def add(round, opponent)
     opponents_for(round) << opponent
   end
@@ -42,19 +42,19 @@ private
   def made_save
     rand < 0.99999
   end
-  
+
   def index_for(round)
     @rounds.index(round)
   end
-  
+
   def round_name_for(round)
     @round_names[index_for(round)]
   end
-  
+
   def opponents_for(round)
     @opponents[index_for(round)]
   end
-  
+
   def choose_for(round)
     o = opponents_for(round)
     o[rand(o.size)]

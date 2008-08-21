@@ -1,8 +1,9 @@
 class Round
   include Dramatis::Actor
 
+  attr_reader :name
   def initialize(name, players)
-    actor.refuse :finished?
+    actor.refuse :runtime
     @start_time = Time.now
     @name = name
     @players = players
@@ -15,20 +16,21 @@ class Round
       end
     end
   end
-  
-  def play
+
+  def play(manager)
+    @manager = manager
     release(@players[-1]).serve(self)
   end
-  
+
   def failed(loser, volleys)
     @end_time = Time.now
     @loser = loser
     @volleys = volleys
-    puts "END: #{@name} in #{@end_time - @start_time} seconds"
-    actor.accept :finished?
+    actor.accept :runtime
+    release(@manager).complete(self)
   end
-  
-  def finished?
-    !!@loser
+
+  def runtime
+    @end_time - @start_time
   end
 end
